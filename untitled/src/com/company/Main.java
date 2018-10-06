@@ -11,7 +11,7 @@ public class Main {
                 "usage: <key filepath> " +
                         "<message filepath> " +
                         "<output filepath> " +
-                        "(-l1|(-l2 (-encode|-findKey))|-l3)";
+                        "(-l1|(-l2 (-encode|-findKey))|-l3|-l4)";
 
         //3 params required
         if(args.length<4){
@@ -67,6 +67,10 @@ public class Main {
                 {
                     //System.out.println(key.length);
                     encoded=Kasiski.findKey(message,key);
+                }break;
+                case "-l4":
+                {
+                    encoded=Gamma.encode(key,message);
                 }break;
                 default:{
                     System.out.print(helpMessage);
