@@ -11,11 +11,12 @@ public class Main {
                 "usage: <key filepath> " +
                         "<message filepath> " +
                         "<output filepath> " +
-                        "(-l1|(-l2 [-encode|-decode]))";
+                        "(-l1|(-l2 (-encode|-findKey))|-l3)";
 
         //3 params required
-        if(args.length<3){
+        if(args.length<4){
             System.out.print(helpMessage);
+            return;
         }
 
         //files for key, message and encoded message
@@ -46,28 +47,31 @@ public class Main {
 
             //choose crypt method according to
             //user data
-            if(args.length<=3 || args[3].equals("-l1")){
-
-                //lab1 encoding/decoding
-                encoded= Vigenere.Encode(key,message);
-            }else if(args[3].equals("-l2")){
-
-                //lab2
-                if(args.length<=4 || args[4].equals("-encode")){
-
-                    //encoding
-                    encoded=Histogram.Encode(key,message);
-                }else if(args[4].equals("-decode")){
-
-                    //decoding
-                    encoded=Histogram.Decode(key,message);
-                }else{
+            switch(args[3]){
+                case "-l1":encoded=Vigenere.encode(key,message);break;
+                case "-l2":{
+                    if(args.length<5){
+                        System.out.print(helpMessage);
+                        return;
+                    }
+                    switch (args[4]){
+                        case "-encode":encoded=Histogram.encode(key,message);break;
+                        case "-findKey":encoded=Histogram.decode(key,message);break;
+                        default: {
+                            System.out.print(helpMessage);
+                            return;
+                        }
+                    }
+                }break;
+                case "-l3":
+                {
+                    //System.out.println(key.length);
+                    encoded=Kasiski.findKey(message,key);
+                }break;
+                default:{
                     System.out.print(helpMessage);
                     return;
                 }
-            }else{
-                System.out.print(helpMessage);
-                return;
             }
 
             //write it to output file

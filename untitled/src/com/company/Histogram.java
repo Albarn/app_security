@@ -1,14 +1,14 @@
 package com.company;
 
 //histogram cipher method
-public class Histogram {
+class Histogram {
 
-    public static byte[] Encode(byte[] key, byte[] message){
+    static byte[] encode(byte[] key, byte[] message){
         int size=message.length;
         byte[] encoded=new byte[size];
 
         //get histogram pattern from key and message size
-        byte[][] h= GetHistogram(key, size);
+        byte[][] h= getHistogram(key, size);
 
         //fill histogram with message bytes
         //*following the rows
@@ -40,12 +40,12 @@ public class Histogram {
         return encoded;
     }
 
-    public static byte[] Decode(byte[] key, byte[] message){
+    static byte[] decode(byte[] key, byte[] message){
         int size=message.length;
         byte[] decoded=new byte[size];
 
         //get pattern
-        byte[][] h= GetHistogram(key, size);
+        byte[][] h= getHistogram(key, size);
 
         //histogram width
         int columnNum=0;
@@ -76,7 +76,7 @@ public class Histogram {
     }
 
     //get histogram pattern with given key and size
-    private static byte[][] GetHistogram(byte[] key, int size) {
+    private static byte[][] getHistogram(byte[] key, int size) {
 
         //convert key bytes to string format
         String[] params=new String(key).split("\r\n");

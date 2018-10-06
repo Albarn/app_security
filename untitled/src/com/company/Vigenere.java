@@ -1,8 +1,8 @@
 package com.company;
 
-public class Vigenere {
+class Vigenere {
 
-    public static byte[] Encode(byte[] key, byte[] message){
+    static byte[] encode(byte[] key, byte[] message){
         int size=message.length;
         byte[] encoded=new byte[size];
 
