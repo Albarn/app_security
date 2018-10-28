@@ -1,9 +1,10 @@
 package com.company;
 
 //histogram cipher method
-class Histogram {
+class Histogram implements Encoder {
 
-    static byte[] encode(byte[] key, byte[] message){
+    @Override
+    public byte[] encode(byte[] key, byte[] message){
         int size=message.length;
         byte[] encoded=new byte[size];
 
@@ -40,7 +41,8 @@ class Histogram {
         return encoded;
     }
 
-    static byte[] decode(byte[] key, byte[] message){
+    @Override
+    public byte[] decode(byte[] key, byte[] message){
         int size=message.length;
         byte[] decoded=new byte[size];
 
@@ -76,7 +78,7 @@ class Histogram {
     }
 
     //get histogram pattern with given key and size
-    private static byte[][] getHistogram(byte[] key, int size) {
+    private byte[][] getHistogram(byte[] key, int size) {
 
         //convert key bytes to string format
         String[] params=new String(key).split("\r\n");

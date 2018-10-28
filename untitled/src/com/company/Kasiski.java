@@ -1,10 +1,17 @@
 package com.company;
 
-class Kasiski {
+class Kasiski implements Encoder {
     private static final double MAX_ERROR = 1e-2;
 
-    //find key to decode cipher with Viginere algorithm
-    static byte[] findKey(byte[] cipher, byte[] sim){
+    @Override
+    public byte[] encode(byte[] key, byte[] message) {
+        return new byte[0];
+    }
+
+    @Override
+    public
+        //find key to decode cipher with Viginere algorithm
+    byte[] decode(byte[] sim, byte[] cipher){
 
         //find coincidence index in
         //similar text
@@ -48,7 +55,7 @@ class Kasiski {
     }
 
     //find the most popular letter in text
-    private static byte findMode(byte[] text,int t,int offset) {
+    private byte findMode(byte[] text, int t, int offset) {
         byte mode=Byte.MIN_VALUE;
 
         //get total number of letters
@@ -64,7 +71,7 @@ class Kasiski {
     }
 
     //Kasiski test
-    private static double test(byte[] text,int t) {
+    private double test(byte[] text, int t) {
         //length of key must be positive
         if(t<1)return -1;
 
@@ -84,7 +91,7 @@ class Kasiski {
     }
 
     //get number of letters in text
-    private static int[] getCnt(byte[] text, int t,int offset) {
+    private int[] getCnt(byte[] text, int t, int offset) {
         //initialize number of each byte with zero
         int[] cnt=new int[Byte.MAX_VALUE-Byte.MIN_VALUE+1];
         for(int i=0;i<cnt.length;i++){

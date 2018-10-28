@@ -1,8 +1,9 @@
 package com.company;
 
-class Vigenere {
+class Vigenere implements Encoder {
 
-    static byte[] encode(byte[] key, byte[] message){
+    @Override
+    public byte[] encode(byte[] key, byte[] message){
         int size=message.length;
         byte[] encoded=new byte[size];
 
@@ -11,5 +12,10 @@ class Vigenere {
         }
 
         return encoded;
+    }
+
+    @Override
+    public byte[] decode(byte[] key, byte[] message) {
+        return encode(key,message);
     }
 }

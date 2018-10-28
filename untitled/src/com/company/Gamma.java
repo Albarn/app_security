@@ -1,6 +1,6 @@
 package com.company;
 
-class Gamma {
+class Gamma implements Encoder{
 
     //simple random generator
     static class TRandom{
@@ -21,8 +21,8 @@ class Gamma {
         }
     }
 
-
-    static byte[] encode(byte[] key, byte[] message){
+    @Override
+    public byte[] encode(byte[] key, byte[] message){
         int size=message.length;
         byte[] encoded=new byte[size];
 
@@ -35,7 +35,7 @@ class Gamma {
         }
 
         //create random sequence
-        TRandom f=new TRandom(key[0],key[1],key[3]);
+        Gamma.TRandom f=new Gamma.TRandom(key[0],key[1],key[3]);
 
         //encode message with given sequence
         for(int i=0;i<size;i++){
@@ -43,5 +43,10 @@ class Gamma {
         }
 
         return encoded;
+    }
+
+    @Override
+    public byte[] decode(byte[] key, byte[] message) {
+        return encode(key,message);
     }
 }

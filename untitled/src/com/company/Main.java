@@ -5,6 +5,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 public class Main {
+    private static final int KEY_PARAM=0;
+    private static final int MESSAGE_PARAM=1;
+    private static final int OUTPUT_PARAM=2;
+    private static final int LAB_NUMBER=3;
+    private static final int OPTION=4;
+
+
     public static void main(String[] args){
         //check correct usage
         String helpMessage =
@@ -13,16 +20,16 @@ public class Main {
                         "<output filepath> " +
                         "(-l1|(-l2 (-encode|-findKey))|-l3|-l4)";
 
-        //3 params required
-        if(args.length<4){
+        //4 params required
+        if((args.length-1)<LAB_NUMBER){
             System.out.print(helpMessage);
             return;
         }
 
         //files for key, message and encoded message
-        File keyFile=new File(args[0]);
-        File messageFile= new File(args[1]);
-        File outFile=new File(args[2]);
+        File keyFile=new File(args[KEY_PARAM]);
+        File messageFile= new File(args[MESSAGE_PARAM]);
+        File outFile=new File(args[OUTPUT_PARAM]);
 
         //reader for key and message files
         FileInputStream fin;
@@ -47,35 +54,21 @@ public class Main {
 
             //choose crypt method according to
             //user data
-            switch(args[3]){
-                case "-l1":encoded=Vigenere.encode(key,message);break;
-                case "-l2":{
-                    if(args.length<5){
-                        System.out.print(helpMessage);
-                        return;
-                    }
-                    switch (args[4]){
-                        case "-encode":encoded=Histogram.encode(key,message);break;
-                        case "-findKey":encoded=Histogram.decode(key,message);break;
-                        default: {
-                            System.out.print(helpMessage);
-                            return;
-                        }
-                    }
-                }break;
-                case "-l3":
-                {
-                    //System.out.println(key.length);
-                    encoded=Kasiski.findKey(message,key);
-                }break;
-                case "-l4":
-                {
-                    encoded=Gamma.encode(key,message);
-                }break;
+            Encoder encoder=null;
+            switch(args[LAB_NUMBER]){
+                case "-l1":encoder=new Vigenere();break;
+                case "-l2":encoder=new Histogram();break;
+                case "-l3":encoder=new Gamma();break;
+                case "-l4":encoder=new Kasiski();break;
                 default:{
                     System.out.print(helpMessage);
                     return;
                 }
+            }
+            if(args.length>OPTION && args[OPTION].equals("-decode")){
+                    encoded=encoder.decode(key,message);
+            }else{
+                encoded=encoder.encode(key,message);
             }
 
             //write it to output file
