@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="main">
+  <artifact type="jar" build-on-make="true" name="main">
     <output-path>$PROJECT_DIR$/out/artifacts/main</output-path>
     <root id="archive" name="app_security.jar">
       <element id="directory" name="META-INF">
