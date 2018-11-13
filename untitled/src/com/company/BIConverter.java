@@ -1,8 +1,11 @@
 package com.company;
 
+//byte<->integer converter
 public class BIConverter {
 
+    //mask for getting byte block
     private static int mask=0b1111_1111;
+
     public static byte[] toBytes(int i){
         byte[] ans=new byte[4];
         ans[3]=(byte)(i&mask); i>>=8;

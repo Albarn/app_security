@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class RsaGenerator {
+//keys generator for rsa method
+class RsaGenerator {
 
-    public RsaGenerator(){
+    RsaGenerator(){
+        //initialize primes
         setPrimes();
         n=e=d=-1;
     }
@@ -14,6 +16,8 @@ public class RsaGenerator {
     private boolean[] isPrime=new boolean[1<<16];
     private void setPrimes(){
 
+        //set all values as true, than mark all
+        //not prime numbers
         for(int i=0;i<isPrime.length;i++){
             isPrime[i]=true;
         }
@@ -27,6 +31,8 @@ public class RsaGenerator {
     }
 
     private int getRandomPrime(){
+
+        //get random prime according to isPrime array
         Random f=new Random(LocalDateTime.now().getNano());
         while (true){
             int ans=f.nextInt(isPrime.length-1);
@@ -36,28 +42,38 @@ public class RsaGenerator {
         }
     }
 
+    //size of alphabet, public key, private key
     private int n,e,d;
 
-    public int getD() {
+    int getD() {
         return d;
     }
 
-    public int getN() {
+    int getN() {
         return n;
     }
 
-    public int getE() {
+    int getE() {
         return e;
     }
 
+    //stacks for extended gcd method
     private ArrayList<Integer> r,x,y;
     private int xGcd(){
+
+        //number of iteration
         int i=r.size();
+
+        //numbers to divide
         int a=r.get(i-2);
         int b=r.get(i-1);
         if(b==0){
+
+            //gcd is the rest before zero
             return a;
         }else{
+
+            //calculate next number, and output params
             int q=a/b;
             r.add(a-q*b);
             x.add(x.get(i-2)-q*x.get(i-1));
@@ -67,18 +83,22 @@ public class RsaGenerator {
     }
 
     void setKeys(){
-        int p=getRandomPrime(),q=getRandomPrime();
-        n=p*q;
 
+        //find two big prime numbers
+        int p=getRandomPrime(),q=getRandomPrime();
+
+        //then, multiply it and find euler function of it
+        n=p*q;
         int fn=(p-1)*(q-1);
 
-        e=fn/2;
-        for(;e<fn;e++){
+        //find solution keys via extended gcd
+        d=fn/2;
+        for(;d<fn;d++){
             r=new ArrayList<>();
             x=new ArrayList<>();
             y=new ArrayList<>();
             r.add(fn);
-            r.add(e);
+            r.add(d);
             x.add(1);
             x.add(0);
             y.add(0);
@@ -87,9 +107,9 @@ public class RsaGenerator {
                 break;
             }
         }
+        e=y.get(y.size()-2);
 
-        d=y.get(y.size()-2);
-
+        //print report
         System.out.println("p:"+p);
         System.out.println("q:"+q);
         System.out.println("n:"+n);
