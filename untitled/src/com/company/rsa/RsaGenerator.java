@@ -77,20 +77,18 @@ public class RsaGenerator {
             r=new ArrayList<>();
             x=new ArrayList<>();
             y=new ArrayList<>();
-            r.add(e);
             r.add(fn);
+            r.add(e);
             x.add(1);
             x.add(0);
             y.add(0);
             y.add(1);
-            if(xGcd()==1){
+            if(xGcd()==1&&y.get(y.size()-2)>0){
                 break;
             }
         }
 
-        d=x.get(x.size()-2)>0?
-                x.get(x.size()-2):
-                y.get(y.size()-2);
+        d=y.get(y.size()-2);
 
         System.out.println("p:"+p);
         System.out.println("q:"+q);

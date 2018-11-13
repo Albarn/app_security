@@ -10,12 +10,10 @@ public class Rsa implements Encoder {
             ans=1;
         }else if(p%2==0){
             long a=power(i,p/2,n);
-            ans= (((a*a))%n);
+            ans=(a*a)%n;
         }else{
-            long a=power(i,p-1,n);
-            ans= ((i*a)%n);
+            ans=(i*power(i,p-1,n))%n;
         }
-        //System.out.println(ans);
         return ans;
     }
 
@@ -26,8 +24,6 @@ public class Rsa implements Encoder {
         }else{
             int n=BIConverter.toInt(new byte[]{key[0],key[1],key[2],key[3]});
             int p=BIConverter.toInt(new byte[]{key[4],key[5],key[6],key[7]});
-            System.out.println(n+" "+p);
-            p=100000;
             HashMap<Byte,Integer> map=new HashMap<>();
             for(int i=-128;i<128;i++){
                 map.put((byte)i,(int)power(i,p,n));
