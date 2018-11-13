@@ -51,20 +51,18 @@ public class RsaGenerator {
     }
 
     private ArrayList<Integer> r,x,y;
-    private int gcd(int a,int b){
-
-
-        if(a==0||b==0){
-            return a+b;
+    private int xGcd(){
+        int i=r.size();
+        int a=r.get(i-2);
+        int b=r.get(i-1);
+        if(b==0){
+            return a;
         }else{
-            int max=a>b?a:b;
-            int min=a<b?a:b;
-            int q=max/min;
-            int i=r.size();
-            r.add(r.get(i-2)-q*r.get(i-1));
+            int q=a/b;
+            r.add(a-q*b);
             x.add(x.get(i-2)-q*x.get(i-1));
             y.add(y.get(i-2)-q*y.get(i-1));
-            return gcd(max%min,min);
+            return xGcd();
         }
     }
 
@@ -85,13 +83,22 @@ public class RsaGenerator {
             x.add(0);
             y.add(0);
             y.add(1);
-            if(gcd(e,fn)==1&&y!=null&&y.size()>0){
+            if(xGcd()==1){
                 break;
             }
         }
 
-        d=x.get(x.size()-1)>0?
-                x.get(x.size()-1):
-                y.get(y.size()-1);
+        d=x.get(x.size()-2)>0?
+                x.get(x.size()-2):
+                y.get(y.size()-2);
+
+        System.out.println("p:"+p);
+        System.out.println("q:"+q);
+        System.out.println("n:"+n);
+        System.out.println("e:"+e);
+        System.out.println("fn:"+fn);
+        System.out.println("d:"+d);
+        System.out.println("x:"+x.get(x.size()-2));
+        System.out.println("y:"+y.get(y.size()-2));
     }
 }

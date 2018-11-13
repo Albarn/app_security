@@ -18,7 +18,7 @@ public class Main {
                 "usage: <key filepath> " +
                         "<message filepath> " +
                         "<output filepath> " +
-                        "(-l1|(-l2 (-encode|-findKey))|-l3|-l4)";
+                        "(-l1|-l2|-l3|-l4) [-encode|-decode]";
 
         //4 params required
         if((args.length-1)<LAB_NUMBER){
@@ -60,6 +60,7 @@ public class Main {
                 case "-l2":encoder=new Histogram();break;
                 case "-l3":encoder=new Gamma();break;
                 case "-l4":encoder=new Kasiski();break;
+                case "-l5":encoder=new Rsa();break;
                 default:{
                     System.out.print(helpMessage);
                     return;

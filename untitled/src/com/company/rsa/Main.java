@@ -1,5 +1,7 @@
 package com.company.rsa;
 
+import com.company.BIConverter;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,14 +25,14 @@ public class Main {
             RsaGenerator generator=new RsaGenerator();
             generator.setKeys();
 
-            FileWriter writer=new FileWriter(openKey);
-            writer.write(generator.getN()+"\r\n");
-            writer.write(Integer.toString(generator.getD()));
+            FileOutputStream writer=new FileOutputStream(openKey);
+            writer.write(BIConverter.toBytes(generator.getN()));
+            writer.write(BIConverter.toBytes(generator.getE()));
             writer.close();
 
-            writer=new FileWriter(privateKey);
-            writer.write(generator.getN()+"\r\n");
-            writer.write(Integer.toString(generator.getE()));
+            writer=new FileOutputStream(privateKey);
+            writer.write(BIConverter.toBytes(generator.getN()));
+            writer.write(BIConverter.toBytes(generator.getD()));
             writer.close();
         }catch (Exception e){
             e.printStackTrace();
