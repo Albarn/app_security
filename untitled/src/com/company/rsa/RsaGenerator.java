@@ -30,10 +30,10 @@ class RsaGenerator {
         }
     }
 
-    private int getRandomPrime(){
+    private int getRandomPrime(int seed){
 
         //get random prime according to isPrime array
-        Random f=new Random(LocalDateTime.now().getNano());
+        Random f=new Random(seed);
         while (true){
             int ans=f.nextInt(isPrime.length-1);
             if(isPrime[ans]){
@@ -85,7 +85,7 @@ class RsaGenerator {
     void setKeys(){
 
         //find two big prime numbers
-        int p=getRandomPrime(),q=getRandomPrime();
+        int p=getRandomPrime(LocalDateTime.now().getNano()),q=getRandomPrime(LocalDateTime.now().getSecond());
 
         //then, multiply it and find euler function of it
         n=p*q;
